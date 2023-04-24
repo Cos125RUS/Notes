@@ -1,2 +1,3 @@
 import sys
-print(sys.argv)
+
+args = sys.argv
