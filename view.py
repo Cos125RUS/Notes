@@ -39,8 +39,11 @@ def show_menu():
 
 
 def show_journal(journal):
-    for item in journal:
-        print(f'{item[0]}\t{item[1]}\t{item[2]}')
+    try:
+        for item in journal:
+            print(f'{item[0]}\t{item[1]}\t{item[2]}')
+    except:
+        print('Нет заметок')
 
 def show_note(note):
     print(note)
@@ -56,3 +59,7 @@ def add():
 
 def change():
     print('Изменения внесены')
+
+
+def bye():
+    print('exit notes.py')

@@ -6,16 +6,16 @@ from ui import User_Interface
 
 class Controller:
     def __init__(self):
+        self.run = True
         self.ui = User_Interface()
         self.db = Data_Base()
         self.board = self.db.get_board()
+        self.actions = {'exit': self.exit,
+                        'journal': self.journal}
 
     def use(self, args):
-        run = True
-        while(run):
-            user_enter = self.ui.run()
-            if user_enter == 0:
-                run = False
+        while(self.run):
+            self.actions[self.ui.enter().strip()]()
 
     def add(self, args):
         pass
@@ -27,7 +27,11 @@ class Controller:
         pass
 
     def journal(self, args):
-        pass
+        self.ui.journal(self.board.get_all_notes())
+
+    def exit(self):
+        self.run = False
+        view.bye()
 
     def no_command(self):
         view.no_command()

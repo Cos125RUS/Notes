@@ -15,6 +15,10 @@ class Board:
         self.notes.append(Note(id, head, body))
         self.count += 1
 
+    def load(self, id, head, body, create_time, last_change):
+        self.notes.append(Note(id, head, body, create_time, last_change))
+        self.count += 1
+
     def change(self, id, head, body):
         self.notes[id].set_note(head, body)
 
@@ -23,3 +27,4 @@ class Board:
 
     def get_all_notes(self):
         return self.notes
+
