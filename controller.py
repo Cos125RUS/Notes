@@ -11,7 +11,7 @@ class Controller:
         self.ui = User_Interface()
         self.db = Data_Base()
         self.board = self.db.get_board()
-        self.checker = Checker()
+        self.checker = Checker(self.ui, self.board)
         self.actions = {'exit': self.exit,
                         'journal': self.journal,
                         'add': self.add,
@@ -21,30 +21,30 @@ class Controller:
 
     def use(self):
         while(self.run):
-            user_entry = self.ui.enter().strip()
+            user_entry = self.ui.enter().strip().split()
             try:
-                self.actions[user_entry]()
+                self.actions[user_entry[0]](user_entry)
             except:
                 self.not_found([user_entry])
 
-    def journal(self):
-        self.ui.journal(self.board.get_all_notes())
+    def journal(self, args):
+        if len(args) == 1:
+            self.ui.journal(self.board.get_all_notes(), False)
+        else:
+            self.checker.journal(args)
 
-    def user_friendly(self, args, func):
+    def user_friendly(self, func):
         try:
-            if args != '':
-                num = self.checker.treatment(args)
-            else:
-                num = self.ui.choice_number()
+            num = self.ui.choice_number()
             func(num)
         except:
             self.ui.fail()
 
-    def add(self, args=''):
-        if args == '':
+    def add(self, args):
+        if len(args) == 1:
             args = self.ui.write_note()
         else:
-            args = self.checker.treatment(args)
+            args = self.checker.add(args)
         self.addition(args)
 
     def addition(self, data):
@@ -55,8 +55,11 @@ class Controller:
         except:
             self.ui.fail()
 
-    def delete(self, args=''):
-        self.user_friendly(args, self.deletion)
+    def delete(self, args):
+        if len(args) == 1:
+            self.user_friendly(self.deletion)
+        else:
+            self.checker.delete(args)
 
     def deletion(self, num):
         if self.board.get_size() > num:
@@ -66,8 +69,11 @@ class Controller:
         else:
             self.ui.no_index(num)
 
-    def change(self, args=''):
-        self.user_friendly(args, self.changing)
+    def change(self, args):
+        if len(args) == 1:
+            self.user_friendly(self.changing)
+        else:
+            self.checker.change(args)
 
     def changing(self, num):
         if self.board.get_size() > num:
@@ -78,8 +84,11 @@ class Controller:
         else:
             self.ui.no_index(num)
 
-    def show(self, args=''):
-        self.user_friendly(args, self.showing)
+    def show(self, args):
+        if len(args) == 1:
+            self.user_friendly(self.showing)
+        else:
+            self.checker.show(args)
 
     def showing(self, num):
         if self.board.get_size() > num:
@@ -87,7 +96,7 @@ class Controller:
         else:
             self.ui.no_index(num)
 
-    def exit(self):
+    def exit(self, args):
         self.run = False
         self.ui.exit()
 

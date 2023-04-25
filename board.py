@@ -41,3 +41,6 @@ class Board:
 
     def get_print(self, index):
         return self.notes[index]
+
+    def get_data_change(self, index):
+        return self.notes[index].get_change_time()

@@ -11,8 +11,8 @@ class User_Interface:
     def exit(self):
         view.bye()
 
-    def journal(self, value):
-        view.show_journal(value)
+    def journal(self, value, revers):
+        view.show_journal(value, revers)
 
     def write_note(self):
         return input(view.head()), input(view.body())
