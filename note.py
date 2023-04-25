@@ -25,7 +25,8 @@ class Note:
         self.set_body(new_body)
 
     def get_note(self):
-        return self._id, self._head, self._body, self._create_time, self._create_time
+        return {"id": self._id, "head": self._head, "body": self._body,
+                "create_time": self._create_time, "last_change": self._last_change}
 
     def get_id(self):
         return self._id

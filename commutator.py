@@ -6,18 +6,17 @@ class Commutator:
         self.args = args
         self.controller = Controller()
         self.function = {'info': view.get_info,
-                         'use': 1,
-                         'add': 2,
-                         'del': 3,
-                         'show': 4}
+                         'use': self.controller.use,
+                         'add': self.controller.add,
+                         'del': self.controller.delete,
+                         'show': self.controller.show,
+                         'journal': self.controller.journal}
 
     def start(self):
         try:
-            Controller().self.function[self.args[1]](self.args[1:])
+            self.function[self.args[1]](self.args[1:])
         except:
             if len(self.args) == 1:
-                view.no_command()
-                view.info_info()
+                self.controller.no_command()
             else:
-                view.not_found_command(self.args[1])
-                view.info_info()
+                self.controller.not_found(self.args)

@@ -1,9 +1,9 @@
 from note import Note
 
 class Board:
-    def __init__(self, count=0):
+    def __init__(self):
         self.notes = []
-        self.count = count
+        self.count = 0
 
     def __str__(self):
         view = ''
@@ -17,3 +17,9 @@ class Board:
 
     def change(self, id, head, body):
         self.notes[id].set_note(head, body)
+
+    def get_note(self, index):
+        return self.notes[index].get_note()
+
+    def get_all_notes(self):
+        return self.notes
