@@ -49,6 +49,9 @@ class Note:
     def get_change_time(self):
         return self._last_change
 
+    def get_journal_data(self):
+        return self._id, self._head, self._last_change
+
     def get_data(self):
-        return f'"id": {self._id}, "head": {self._head}, "body": {self._body}, ' \
-               f'"create_time": {self._create_time}, "last_change": {self._last_change}'
+        return f'"id": {self._id}, "head": "{self._head}", "body": "{self._body}", ' \
+               f'"create_time": "{self._create_time}", "last_change": "{self._last_change}"'

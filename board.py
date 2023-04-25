@@ -11,8 +11,8 @@ class Board:
             view += item + '\n\n'
         return view
 
-    def new(self, id, head, body):
-        self.notes.append(Note(id, head, body))
+    def new(self, head, body):
+        self.notes.append(Note(self.count, head, body))
         self.count += 1
 
     def load(self, id, head, body, create_time, last_change):
@@ -22,9 +22,17 @@ class Board:
     def change(self, id, head, body):
         self.notes[id].set_note(head, body)
 
+    def delete(self, id):
+        self.notes.pop(id)
+
     def get_note(self, index):
         return self.notes[index].get_note()
 
     def get_all_notes(self):
         return self.notes
 
+    def get_count(self):
+        return self.count
+
+    def get_size(self):
+        return len(self.notes)

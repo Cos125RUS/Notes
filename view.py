@@ -1,6 +1,6 @@
 
 def user_input():
-    return 'notes.py:> '
+    return '\033[37m notes> '
 
 
 def head():
@@ -14,12 +14,25 @@ def body():
 def choice_number():
     return 'Укажите заметки: '
 
+
+def enter_id():
+    return 'Введите ID: '
+
+
 def no_command():
     print("Необходимо ввести команду")
 
 
 def not_found_command(command):
     print(f"Неизвестная команда - {command}")
+
+
+def no_id(id):
+    print(f'Неверно указан ID - {id}')
+
+
+def fail():
+    print('Ошибка ввода')
 
 
 def info_info():
@@ -40,8 +53,10 @@ def show_menu():
 
 def show_journal(journal):
     try:
+        print('ID\tДАТА ИЗМЕНЕНИЯ\t\tЗАГОЛОВОК')
         for item in journal:
-            print(f'{item[0]}\t{item[1]}\t{item[2]}')
+            id, head, c_time = item.get_journal_data()
+            print(f'{id}\t{c_time}\t{head}')
     except:
         print('Нет заметок')
 
@@ -62,4 +77,4 @@ def change():
 
 
 def bye():
-    print('exit notes.py')
+    print('Выход из notes')
