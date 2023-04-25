@@ -20,6 +20,9 @@ class User_Interface:
     def add(self):
         view.add()
 
+    def change(self):
+        view.change()
+
     def not_found(self, args):
         view.not_found_command(args[0])
         view.info_info()
@@ -28,29 +31,17 @@ class User_Interface:
         view.no_command()
         view.info_info()
 
-    def no_id(self, id):
-        view.no_id(id)
+    def no_index(self, num):
+        view.no_index(num)
 
-    def enter_id(self):
-        return int(input(view.enter_id()))
+    def choice_number(self):
+        return int(input(view.choice_number())) - 1
 
     def delete(self):
         view.delete()
 
+    def show(self, value):
+        view.show_note(value)
+
     def fail(self):
         view.fail()
-
-
-
-
-    def menu(self, value):
-        view.show_menu()
-        return input(view.user_input())
-
-    def note(self, value):
-        view.show_note(value)
-        return input(view.user_input())
-
-    def change(self, value):
-        view.change()
-

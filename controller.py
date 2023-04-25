@@ -30,6 +30,16 @@ class Controller:
     def journal(self):
         self.ui.journal(self.board.get_all_notes())
 
+    def user_friendly(self, args, func):
+        try:
+            if args != '':
+                num = self.checker.treatment(args)
+            else:
+                num = self.ui.choice_number()
+            func(num)
+        except:
+            self.ui.fail()
+
     def add(self, args=''):
         if args == '':
             args = self.ui.write_note()
@@ -46,28 +56,36 @@ class Controller:
             self.ui.fail()
 
     def delete(self, args=''):
-        try:
-            if args != '':
-                id = self.checker.treatment(args)
-            else:
-                id = self.ui.enter_id()
-            self.deletion(id)
-        except:
-            self.ui.fail()
+        self.user_friendly(args, self.deletion)
 
-    def deletion(self, id):
-        if self.board.get_size() > id:
-            self.board.delete(id)
+    def deletion(self, num):
+        if self.board.get_size() > num:
+            self.board.delete(num)
             self.db.save()
             self.ui.delete()
         else:
-            self.ui.no_id(id)
+            self.ui.no_index(num)
 
-    def change(self, args):
-        pass
+    def change(self, args=''):
+        self.user_friendly(args, self.changing)
 
-    def show(self, args):
-        pass
+    def changing(self, num):
+        if self.board.get_size() > num:
+            head, body = self.ui.write_note()
+            self.board.change(num, head, body)
+            self.db.save()
+            self.ui.change()
+        else:
+            self.ui.no_index(num)
+
+    def show(self, args=''):
+        self.user_friendly(args, self.showing)
+
+    def showing(self, num):
+        if self.board.get_size() > num:
+            self.ui.show(self.board.get_print(num))
+        else:
+            self.ui.no_index(num)
 
     def exit(self):
         self.run = False

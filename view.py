@@ -12,11 +12,7 @@ def body():
 
 
 def choice_number():
-    return 'Укажите заметки: '
-
-
-def enter_id():
-    return 'Введите ID: '
+    return 'Укажите № заметки: '
 
 
 def no_command():
@@ -27,8 +23,8 @@ def not_found_command(command):
     print(f"Неизвестная команда - {command}")
 
 
-def no_id(id):
-    print(f'Неверно указан ID - {id}')
+def no_index(num):
+    print(f'Неверно указан индекс - {num}')
 
 
 def fail():
@@ -43,22 +39,16 @@ def get_info(args):
     print('Здесь будет info с описанием команд')
 
 
-def show_menu():
-    print('1 - Просмотр заметок')
-    print('2 - Создать заметку')
-    print('3 - удалить заметку')
-    print('4 - редактировать заметку')
-    print('0 - выйти')
-
-
 def show_journal(journal):
     try:
-        print('ID\tДАТА ИЗМЕНЕНИЯ\t\tЗАГОЛОВОК')
-        for item in journal:
-            id, head, c_time = item.get_journal_data()
-            print(f'{id}\t{c_time}\t{head}')
+        print('№\tID\tДАТА ИЗМЕНЕНИЯ\t\tЗАГОЛОВОК')
+        for i in range(len(journal)):
+            id, head, c_time = journal[i].get_journal_data()
+            id = '000'[:-len(str(id))] + str(id)
+            print(f'{i + 1}\t{id}\t{c_time}\t{head}')
     except:
         print('Нет заметок')
+
 
 def show_note(note):
     print(note)

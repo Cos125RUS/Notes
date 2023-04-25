@@ -12,9 +12,10 @@ class Data_Base:
     def load(self):
         try:
             with open('notes_db.json', 'r') as file:
-                items = file.read().replace('[', '').replace(']', '').replace('{', '')\
-                    .replace('\n', '')
-                items += ','
+                data = file.read().replace('\n', '').replace(' ', '').split(',"board":[')
+                count = int(data[0].replace('{"count":', ''))
+                self.board.set_count(count)
+                items = data[1].replace(']}', '').replace('{', '') + ','
                 items = items.split('},')
             for item in items:
                 id, head, body, create_time, last_change = self.parse(item)
@@ -25,10 +26,10 @@ class Data_Base:
     def save(self):
         try:
             with open('notes_db.json', 'w') as file:
-                data = '['
+                data = '{"count": %d, "board": [' % (self.board.get_count())
                 for item in self.board.get_all_notes():
                     data += '{' + item.get_data() + '},'
-                file.write(data[:-1] + ']')
+                file.write(data[:-1] + ']}')
         except:
             pass
 
