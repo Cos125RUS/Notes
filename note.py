@@ -33,5 +33,12 @@ class Note:
     def get_head(self):
         return self._head
 
+    def get_body(self):
+        return self._body
+
+    def get_create_time(self):
+        return self._create_time
+
     def get_change_time(self):
         return self._last_change
+
