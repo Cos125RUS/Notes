@@ -59,13 +59,13 @@ class Controller:
         if len(args) == 1:
             self.user_friendly(self.deletion)
         else:
-            self.checker.delete(args)
+            list(map(self.deletion, [j - i for i, j in enumerate(self.checker.delete(args))]))
+        self.db.save()
+        self.ui.delete()
 
     def deletion(self, num):
         if self.board.get_size() > num:
             self.board.delete(num)
-            self.db.save()
-            self.ui.delete()
         else:
             self.ui.no_index(num)
 
