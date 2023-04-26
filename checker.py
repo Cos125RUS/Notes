@@ -9,7 +9,8 @@ class Checker:
     def journal(self, args):
         data = self.board.get_all_notes()
         flags = {"-r": self.change_revers,
-                 "-d": self.data_sort}
+                 "-d": self.data_sort,
+                 "-t": self.title_sort}
         if args[1] != '-r' and args[1].count('r'):
             self.change_revers()
             args[1] = args[1].replace('r', '')
@@ -44,4 +45,10 @@ class Checker:
         item_dict = {}
         for i in range(len(items)):
             item_dict[items[i].get_change_time()] = items[i]
+        return [item_dict[i] for i in sorted(item_dict.keys())]
+
+    def title_sort(self, items):
+        item_dict = {}
+        for i in range(len(items)):
+            item_dict[items[i].get_head()] = items[i]
         return [item_dict[i] for i in sorted(item_dict.keys())]

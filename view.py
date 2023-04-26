@@ -1,6 +1,6 @@
 
 def user_input():
-    return '\033[37m notes> '
+    return '\033[35m notes> '
 
 
 def head():
@@ -72,4 +72,4 @@ def change():
 
 
 def bye():
-    print('Выход из notes')
+    print('Выход из notes\033[0m')

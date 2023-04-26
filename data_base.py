@@ -12,11 +12,12 @@ class Data_Base:
     def load(self):
         try:
             with open('notes_db.json', 'r') as file:
-                data = file.read().replace('\n', '').replace(' ', '').split(',"board":[')
-                count = int(data[0].replace('{"count":', ''))
+                data = file.read().split('"board": [')
+                count = int(data[0].replace('\n', '').replace(' ', '')
+                            .replace(',', '').replace('{"count":', ''))
                 self.board.set_count(count)
-                items = data[1].replace(']}', '').replace('{', '') + ','
-                items = items.split('},')
+                items = data[1].replace(']\n}', '').replace(']}', '').replace('{', '')
+                items = items[:items.rfind('}')].split('},')
             for item in items:
                 id, head, body, create_time, last_change = self.parse(item)
                 self.board.load(id, head, body, create_time, last_change)
@@ -34,10 +35,9 @@ class Data_Base:
             pass
 
     def parse(self, value):
-        items = value.split(',')
-        id = items[0].replace('"id":', '').strip()
-        head = items[1].replace('"head":', '').replace('"', '').strip()
-        body = items[2].replace('"body":', '').replace('"', '').strip()
-        create_time = items[3].replace('"create_time":', '').replace('"', '').strip()
-        last_change = items[4].replace('"last_change":', '').replace('"', '').strip()
+        id = value[6:value.index(', "head":')]
+        head = value[value.index('"head": ') + 9:value.index('", "body":')]
+        body = value[value.index('"body": ') + 9:value.index('", "create_time":')]
+        create_time = value[value.index('"create_time": ') + 16:value.index('", "last_change":')]
+        last_change = value[value.index('"last_change": ') + 16:-1]
         return id, head, body, create_time, last_change
