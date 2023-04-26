@@ -13,11 +13,11 @@ class Controller:
         self.board = self.db.get_board()
         self.checker = Checker(self.ui, self.board)
         self.actions = {'exit': self.exit,
-                        'journal': self.journal,
+                        'jr': self.journal,
                         'add': self.add,
                         'del': self.delete,
-                        'show': self.show,
-                        'change': self.change}
+                        'sh': self.show,
+                        'cg': self.change}
 
     def use(self):
         while(self.run):
@@ -44,7 +44,7 @@ class Controller:
         if len(args) == 1:
             args = self.ui.write_note()
         else:
-            args = self.checker.add(args)
+            args = self.checker.cath_double_flag(args)
         self.addition(args)
 
     def addition(self, data):
@@ -59,7 +59,7 @@ class Controller:
         if len(args) == 1:
             self.user_friendly(self.deletion)
         else:
-            list(map(self.deletion, [j - i for i, j in enumerate(self.checker.delete(args))]))
+            list(map(self.deletion, [j - i for i, j in enumerate(self.checker.cath_flag(args))]))
         self.db.save()
         self.ui.delete()
 
@@ -71,24 +71,27 @@ class Controller:
 
     def change(self, args):
         if len(args) == 1:
-            self.user_friendly(self.changing)
+            self.user_friendly(self.entry_change)
         else:
-            self.checker.change(args)
+            self.changing(*self.checker.change(args))
 
-    def changing(self, num):
+    def entry_change(self, num):
         if self.board.get_size() > num:
             head, body = self.ui.write_note()
+            self.changing(num, head, body)
+        else:
+            self.ui.no_index(num)
+
+    def changing(self, num, head, body):
             self.board.change(num, head, body)
             self.db.save()
             self.ui.change()
-        else:
-            self.ui.no_index(num)
 
     def show(self, args):
         if len(args) == 1:
             self.user_friendly(self.showing)
         else:
-            self.checker.show(args)
+            list(map(self.showing, [j - i for i, j in enumerate(self.checker.cath_flag(args))]))
 
     def showing(self, num):
         if self.board.get_size() > num:

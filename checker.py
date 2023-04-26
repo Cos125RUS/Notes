@@ -22,36 +22,10 @@ class Checker:
         except:
             self.ui.not_found(args[1:])
 
-    def add(self, args):
-        res = {}
-        double_flags = {"--title": self.ui.write_head,
-                        "--msg": self.ui.write_body}
-        catch = [flag for flag in double_flags if flag in args]
-        if len(args) != len(catch) * 2 + 1:
-            self.ui.no_args()
-        elif len(catch):
-            for item in catch:
-                res[item] = self.take_value(args[args.index(item) + 1])
-            for item in [flag for flag in double_flags if flag not in res.keys()]:
-                res[item] = double_flags[item]()
-            return res['--title'], res['--msg']
-
-    def delete(self, args):
-        flags = {"-i": self.del_for_id,
-                 "-n": lambda data: data,
-                 "-h": self.del_for_head}
-        if len(args) < 3:
-            self.ui.no_args()
-        elif ((args[1] == '-i' or args[1] == '-n') and args[2].isdigit()) or args[1] == '-h':
-            return flags[args[1]](args[2])
-
-    def show(self, args):
-        flags = {}
-        double_flags = {}
-
     def change(self, args):
-        flags = {}
-        double_flags = {}
+        num = self.cath_flag(args[:3])
+        value = self.cath_double_flag(args[2:])
+        return *num, *value
 
     def change_revers(self, data=''):
         self.revers = True
@@ -76,10 +50,33 @@ class Checker:
             self.ui.fail()
             self.ui.no_quotes()
 
-    def del_for_id(self, id):
+    def take_from_id(self, id):
         items = self.board.get_all_notes()
-        return [i for i in range(len(items)) if int(items[i].get_id()) == int(id)][0]
+        return [int(i) for i in range(len(items)) if int(items[i].get_id()) == int(id)]
 
-    def del_for_head(self, head):
+    def take_from_head(self, head):
         items = self.board.get_all_notes()
         return [int(i) for i in range(len(items)) if items[i].get_head() == head]
+
+    def cath_flag(self, args):
+        flags = {"-i": self.take_from_id,
+                 "-n": lambda data: [int(data) - 1],
+                 "-h": self.take_from_head}
+        if len(args) < 3:
+            self.ui.no_args()
+        elif ((args[1] == '-i' or args[1] == '-n') and args[2].isdigit()) or args[1] == '-h':
+            return flags[args[1]](args[2])
+
+    def cath_double_flag(self, args):
+        res = {}
+        double_flags = {"--title": self.ui.write_head,
+                        "--msg": self.ui.write_body}
+        catch = [flag for flag in double_flags if flag in args]
+        if len(args) != len(catch) * 2 + 1:
+            self.ui.no_args()
+        elif len(catch):
+            for item in catch:
+                res[item] = self.take_value(args[args.index(item) + 1])
+            for item in [flag for flag in double_flags if flag not in res.keys()]:
+                res[item] = double_flags[item]()
+            return res['--title'], res['--msg']

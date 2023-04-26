@@ -8,8 +8,9 @@ class Commutator:
         self.function = {'info': view.get_info,
                          'add': self.controller.add,
                          'del': self.controller.delete,
-                         'show': self.controller.show,
-                         'journal': self.controller.journal}
+                         'sh': self.controller.show,
+                         'jr': self.controller.journal,
+                         'cg': self.controller.change}
 
     def start(self):
         try:
