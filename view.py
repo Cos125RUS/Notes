@@ -35,6 +35,10 @@ def fail():
     print('Ошибка ввода')
 
 
+def no_quotes():
+    print('Текст должен быть заключён в кавычки')
+
+
 def info_info():
     print("Чтобы получить информацию о возможных командах введите python notes.py info")
 
@@ -76,3 +80,5 @@ def change():
 
 def bye():
     print('Выход из notes\033[0m')
+
+

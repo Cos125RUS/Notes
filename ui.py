@@ -17,6 +17,15 @@ class User_Interface:
     def write_note(self):
         return input(view.head()), input(view.body())
 
+
+    def write_head(self):
+        return input(view.head())
+
+
+    def write_body(self):
+        return input(view.body())
+
+
     def add(self):
         view.add()
 
@@ -45,8 +54,11 @@ class User_Interface:
 
     def fail(self):
         view.fail()
-        view.info_info()
 
     def no_args(self):
         view.no_args()
         view.info_info()
+
+
+    def no_quotes(self):
+        view.no_quotes()

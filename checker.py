@@ -24,17 +24,22 @@ class Checker:
 
     def add(self, args):
         res = {}
-        double_flags = ["--title", "--msg"]
-        if len(args) < 3:
+        double_flags = {"--title": self.ui.write_head,
+                        "--msg": self.ui.write_body}
+        catch = [flag for flag in double_flags if flag in args]
+        if len(args) != len(catch) * 2 + 1:
             self.ui.no_args()
-        elif len([flag for flag in double_flags if flag in args]):
-            for item in [flag for flag in double_flags if flag in args]:
-                res[item[2:]] = self.take_value(args[args.index(item) + 1])
-            return res['title'], res['msg']
+        elif len(catch):
+            for item in catch:
+                res[item] = self.take_value(args[args.index(item) + 1])
+            for item in [flag for flag in double_flags if flag not in res.keys()]:
+                res[item] = double_flags[item]()
+            return res['--title'], res['--msg']
 
     def delete(self, args):
-        flags = {}
-        double_flags = {}
+        flags = {"-i": 0,
+                 "-n": 1,
+                 "-h": 2}
 
     def show(self, args):
         flags = {}
@@ -63,3 +68,6 @@ class Checker:
     def take_value(self, value):
         if value[:1] == '"' and value[-1:] == '"':
             return value[1:-1]
+        else:
+            self.ui.fail()
+            self.ui.no_quotes()
