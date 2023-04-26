@@ -27,6 +27,10 @@ def no_index(num):
     print(f'Неверно указан индекс - {num}')
 
 
+def no_args():
+    print('Нехватает аргументов')
+
+
 def fail():
     print('Ошибка ввода')
 
@@ -39,18 +43,17 @@ def get_info(args):
     print('Здесь будет info с описанием команд')
 
 
-def show_journal(journal, revers):
+def show_journal(journal, revers, size):
+    if size == -1:
+        size = len(journal)
     try:
+        if revers:
+            journal = journal[::-1]
         print('№\tID\tДАТА ИЗМЕНЕНИЯ\t\tЗАГОЛОВОК')
-        list = []
-        for i in range(len(journal)):
+        for i in range(size):
             id, head, c_time = journal[i].get_journal_data()
             id = '000'[:-len(str(id))] + str(id)
-            list.append(f'{i + 1}\t{id}\t{c_time}\t{head}')
-        if revers:
-            list = list[::-1]
-        for line in list:
-            print(line)
+            print(f'{i + 1}\t{id}\t{c_time}\t{head}')
     except:
         print('Нет заметок')
 

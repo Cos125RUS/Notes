@@ -29,7 +29,7 @@ class Controller:
 
     def journal(self, args):
         if len(args) == 1:
-            self.ui.journal(self.board.get_all_notes(), False)
+            self.ui.journal(self.board.get_all_notes())
         else:
             self.checker.journal(args)
 
