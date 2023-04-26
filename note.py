@@ -15,7 +15,8 @@ class Note:
             self._last_change = last_change
 
     def __str__(self):
-        return f'{self._id}.\t{self._head}\n\n{self._body}\n\n' \
+        id = '000'[:-len(str(self._id))] + str(self._id)
+        return f'{id}.\t{self._head}\n\n{self._body}\n\n' \
                f'Создано: {self._create_time}\nПоследнее изменение:{self._last_change}'
 
     def set_head(self, new_item):
