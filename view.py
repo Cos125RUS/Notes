@@ -88,6 +88,10 @@ def get_info(args):
 
 
 def show_journal(journal, revers, size):
+    """Вывод журнала заметок на печать
+    :param journal: журнал заметок
+    :param revers: направления вывода
+    :param size: количество выводимых позиций"""
     if size == -1:
         size = len(journal)
     try:
@@ -103,6 +107,8 @@ def show_journal(journal, revers, size):
 
 
 def show_note(note):
+    """Печать заметки
+    :param note: данные печатаемой заметки"""
     print(note)
 
 

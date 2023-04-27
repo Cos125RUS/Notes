@@ -7,7 +7,7 @@ class Commutator:
         """:param args: Список введённых пользователем команд"""
         self.args = args
         self.controller = Controller()
-        self.function = {'info': view.get_info,
+        self.function = {'info': self.controller.info,
                          'add': self.controller.add,
                          'del': self.controller.delete,
                          'sh': self.controller.show,

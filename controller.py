@@ -11,7 +11,8 @@ class Controller:
         self.db = Data_Base(self.ui)
         self.board = self.db.get_board()
         self.checker = Checker(self.ui, self.board)
-        self.actions = {'exit': self.exit,
+        self.actions = {'info': self.info,
+                        'exit': self.exit,
                         'jr': self.journal,
                         'add': self.add,
                         'del': self.delete,
@@ -143,3 +144,7 @@ class Controller:
     def no_command(self):
         """Команда не введена"""
         self.ui.no_command()
+
+    def info(self, data=''):
+        """Показать информацию о программе"""
+        self.ui.show_info()

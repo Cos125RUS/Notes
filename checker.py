@@ -15,16 +15,16 @@ class Checker:
         flags = {"-r": self.change_revers,
                  "-d": self.date_sort,
                  "-t": self.title_sort}
-        size = self.board.get_size()
+        size = -1
         if args[1] != '-r' and args[1].count('r'):
-            self.change_revers()
+            self.revers = not self.revers
             args[1] = args[1].replace('r', '')
-        if args[2].isdigit():
+        if len(args) > 2 and args[2].isdigit():
             size = int(args[2])
         try:
             data = flags[args[1]](self.board.get_all_notes())
             self.ui.journal(data, self.revers, size)
-            self.change_revers()
+            self.revers = not self.revers
         except:
             self.ui.not_found(args[1:])
 
@@ -37,9 +37,10 @@ class Checker:
         value = self.cath_double_flag(args[2:])
         return *num, *value
 
-    def change_revers(self):
+    def change_revers(self, data=''):
         """Изменение порядка вывода позиций"""
         self.revers = True
+        return data
 
     def date_sort(self, items):
         """Сортировка по дате
