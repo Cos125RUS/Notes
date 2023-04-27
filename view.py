@@ -35,6 +35,14 @@ def fail():
     print('Ошибка ввода')
 
 
+def error_load():
+    print('Ошибка загрузки данных')
+
+
+def error_save():
+    print('Ошибка сохранения данных')
+
+
 def no_quotes():
     print('Текст должен быть заключён в кавычки')
 

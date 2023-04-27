@@ -8,7 +8,7 @@ class Controller:
     def __init__(self):
         self.run = True
         self.ui = User_Interface()
-        self.db = Data_Base()
+        self.db = Data_Base(self.ui)
         self.board = self.db.get_board()
         self.checker = Checker(self.ui, self.board)
         self.actions = {'exit': self.exit,

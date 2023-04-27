@@ -2,14 +2,20 @@ from board import Board
 
 
 class Data_Base:
-    def __init__(self):
+    """Запись и считывание данных из базы"""
+    def __init__(self, ui):
+        """:param ui: взаимодействие с пользователем"""
         self.board = Board()
+        self.ui = ui
 
     def get_board(self):
+        """Предоставляет доску заметок
+        :return: экземпляр класса Board"""
         self.load()
         return self.board
 
     def load(self):
+        """Загрузка данных в доску заметок"""
         try:
             with open('notes_db.json', 'r') as file:
                 data = file.read().split('"board": [')
@@ -22,9 +28,10 @@ class Data_Base:
                 id, head, body, create_time, last_change = self.parse(item)
                 self.board.load(id, head, body, create_time, last_change)
         except:
-            pass
+            self.ui.error_load()
 
     def save(self):
+        """Сохранение данных в файл JSON"""
         try:
             with open('notes_db.json', 'w') as file:
                 data = '{"count": %d, "board": [' % (self.board.get_count())
@@ -32,9 +39,12 @@ class Data_Base:
                     data += '{' + item.get_data() + '},'
                 file.write(data[:-1] + ']}')
         except:
-            pass
+            self.ui.error_save()
 
     def parse(self, value):
+        """Преобразование параметров, считанных из файла JSON
+        :param value: необработанный текст файла
+        :return: обработанные параметры (id, head, body, create_time, last_change)"""
         id = value[6:value.index(', "head":')]
         head = value[value.index('"head": ') + 9:value.index('", "body":')]
         body = value[value.index('"body": ') + 9:value.index('", "create_time":')]
