@@ -1,4 +1,5 @@
 from board import Board
+import os
 
 
 class Data_Base:
@@ -28,7 +29,8 @@ class Data_Base:
                 id, head, body, create_time, last_change = self.parse(item)
                 self.board.load(id, head, body, create_time, last_change)
         except:
-            self.ui.error_load()
+            if os.path.isfile('notes_db.json'):
+                self.ui.error_load()
 
     def save(self):
         """Сохранение данных в файл JSON"""
