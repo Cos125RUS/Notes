@@ -95,6 +95,6 @@ class User_Interface:
         """Сообщение об ошибке сохранения данных"""
         view.error_save()
 
-    def show_info(self, args=''):
+    def show_info(self):
         """Показать информацию о программе"""
-        view.get_info(args)
+        view.get_info()
